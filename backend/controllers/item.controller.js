@@ -1,23 +1,44 @@
-import Item from '../models/Item.js';
+const Item = require('../models/Item');
 
-// Fetch all items
-export const getItems = async (req, res) => {
-    try {
-        const items = await Item.find();
-        res.json(items);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
+// CREATE
+exports.createItem = async (req, res, next) => {
+  try {
+    const item = await Item.create(req.body);
+    res.status(201).json(item);
+  } catch (err) { next(err); }
 };
 
-// Create a new item
-export const createItem = async (req, res) => {
-    try {
-        const { name, price } = req.body;
-        const newItem = new Item({ name, price });
-        await newItem.save();
-        res.status(201).json(newItem);
-    } catch (error) {
-        res.status(400).json({ message: error.message });
-    }
+// READ ALL
+exports.getItems = async (_, res, next) => {
+  try {
+    const items = await Item.find();
+    res.json(items);
+  } catch (err) { next(err); }
+};
+
+// READ ONE
+exports.getItem = async (req, res, next) => {
+  try {
+    const item = await Item.findById(req.params.id);
+    if (!item) return res.status(404).json({ message: 'Not found' });
+    res.json(item);
+  } catch (err) { next(err); }
+};
+
+// UPDATE
+exports.updateItem = async (req, res, next) => {
+  try {
+    const item = await Item.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!item) return res.status(404).json({ message: 'Not found' });
+    res.json(item);
+  } catch (err) { next(err); }
+};
+
+// DELETE
+exports.deleteItem = async (req, res, next) => {
+  try {
+    const item = await Item.findByIdAndDelete(req.params.id);
+    if (!item) return res.status(404).json({ message: 'Not found' });
+    res.json({ message: 'Deleted' });
+  } catch (err) { next(err); }
 };

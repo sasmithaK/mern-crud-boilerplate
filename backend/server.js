@@ -1,21 +1,16 @@
-import express from 'express';
-import dotenv from 'dotenv';
-import cors from 'cors';
-import connectDB from './config/db.js';
-import itemRoutes from './routes/item.routes.js';
-import errorHandler from './middleware/errorHandler.js';
+require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
+const connectDB = require('./config/db');
+const itemRoutes = require('./routes/item.routes');
+const { errorHandler } = require('./middleware/errorHandler');
 
-dotenv.config();
 connectDB();
-
 const app = express();
+
 app.use(cors());
 app.use(express.json());
-
-// Routes
 app.use('/api/items', itemRoutes);
-
-// Error Handling Middleware
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;

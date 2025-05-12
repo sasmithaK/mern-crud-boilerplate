@@ -1,13 +1,8 @@
 import axios from 'axios';
+const BASE = '/api/items';
 
-const API_URL = 'http://localhost:5000/api/items'; // Adjust based on backend port
-
-export const getItems = async () => {
-    const response = await axios.get(API_URL);
-    return response.data;
-};
-
-export const createItem = async (itemData) => {
-    const response = await axios.post(API_URL, itemData);
-    return response.data;
-};
+export const getItems   = () => axios.get(BASE);
+export const getItem    = id => axios.get(`${BASE}/${id}`);
+export const createItem = data => axios.post(BASE, data);
+export const updateItem = (id, data) => axios.put(`${BASE}/${id}`, data);
+export const deleteItem = id => axios.delete(`${BASE}/${id}`);

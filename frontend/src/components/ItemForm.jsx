@@ -1,31 +1,38 @@
-import React, { useState } from 'react';
-import { createItem } from '../api/itemApi';
+import React, { useState, useEffect } from 'react';
+import { createItem, updateItem, getItem } from '../api/itemApi';
 
-const ItemForm = ({ onItemAdded }) => {
-    const [item, setItem] = useState({ name: '', price: '' });
+export default function ItemForm({ selectedId, onSaved }) {
+  const [form, setForm] = useState({ name: '', description: '' });
 
-    const handleChange = (e) => {
-        setItem({ ...item, [e.target.name]: e.target.value });
-    };
+  useEffect(() => {
+    if (selectedId) {
+      getItem(selectedId).then(res => setForm(res.data));
+    }
+  }, [selectedId]);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            await createItem(item);
-            setItem({ name: '', price: '' });
-            onItemAdded(); // Refresh the list after adding
-        } catch (error) {
-            console.error('Error adding item:', error);
-        }
-    };
+  const handleSubmit = e => {
+    e.preventDefault();
+    const action = selectedId ? updateItem(selectedId, form) : createItem(form);
+    action.then(() => {
+      setForm({ name: '', description: '' });
+      onSaved();
+    });
+  };
 
-    return (
-        <form onSubmit={handleSubmit}>
-            <input type="text" name="name" placeholder="Item Name" value={item.name} onChange={handleChange} required />
-            <input type="number" name="price" placeholder="Price" value={item.price} onChange={handleChange} required />
-            <button type="submit">Add Item</button>
-        </form>
-    );
-};
-
-export default ItemForm;
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        placeholder="Name"
+        value={form.name}
+        onChange={e => setForm({ ...form, name: e.target.value })}
+        required
+      />
+      <textarea
+        placeholder="Description"
+        value={form.description}
+        onChange={e => setForm({ ...form, description: e.target.value })}
+      />
+      <button type="submit">{selectedId ? 'Update' : 'Create'}</button>
+    </form>
+  );
+}

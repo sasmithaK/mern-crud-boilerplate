@@ -1,32 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { getItems } from '../api/itemApi';
+import { getItems, deleteItem } from '../api/itemApi';
 
-const ItemList = () => {
-    const [items, setItems] = useState([]);
+export default function ItemList({ onEdit }) {
+  const [items, setItems] = useState([]);
 
-    useEffect(() => {
-        fetchItems();
-    }, []);
+  const fetch = () => getItems().then(res => setItems(res.data));
+  useEffect(fetch, []);
 
-    const fetchItems = async () => {
-        try {
-            const data = await getItems();
-            setItems(data);
-        } catch (error) {
-            console.error('Error fetching items:', error);
-        }
-    };
-
-    return (
-        <div>
-            <h2>Item List</h2>
-            <ul>
-                {items.map((item) => (
-                    <li key={item._id}>{item.name} - ${item.price}</li>
-                ))}
-            </ul>
-        </div>
-    );
-};
-
-export default ItemList;
+  return (
+    <ul>
+      {items.map(it => (
+        <li key={it._id}>
+          <strong>{it.name}</strong> – {it.description}
+          <button onClick={() => onEdit(it._id)}>Edit</button>
+          <button onClick={() => deleteItem(it._id).then(fetch)}>Delete</button>
+        </li>
+      ))}
+    </ul>
+  );
+}

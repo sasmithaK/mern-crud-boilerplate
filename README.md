@@ -41,6 +41,8 @@ Copy-Item .env.example .env  # Create env file
 npm run dev         # Start Express server (with nodemon)
 ```
 
+⭕ Make sure to add the .env file extension to the .gitignore file before pushing to GitHub
+
 > 🌐 Server runs on `http://localhost:PORT`
 
 ### 3. Setup the Frontend

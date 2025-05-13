@@ -20,19 +20,33 @@ export default function ItemForm({ selectedId, onSaved }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        placeholder="Name"
-        value={form.name}
-        onChange={e => setForm({ ...form, name: e.target.value })}
-        required
-      />
-      <textarea
-        placeholder="Description"
-        value={form.description}
-        onChange={e => setForm({ ...form, description: e.target.value })}
-      />
-      <button type="submit">{selectedId ? 'Update' : 'Create'}</button>
+    <form onSubmit={handleSubmit} className="container mt-4">
+      <div className="mb-3">
+        <label className="form-label">Name</label>
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Enter item name"
+          value={form.name}
+          onChange={e => setForm({ ...form, name: e.target.value })}
+          required
+        />
+      </div>
+
+      <div className="mb-3">
+        <label className="form-label">Description</label>
+        <textarea
+          className="form-control"
+          placeholder="Enter item description"
+          value={form.description}
+          onChange={e => setForm({ ...form, description: e.target.value })}
+          rows="3"
+        />
+      </div>
+
+      <button type="submit" className={`btn ${selectedId ? 'btn-warning' : 'btn-success'}`}>
+        {selectedId ? 'Update' : 'Create'}
+      </button>
     </form>
   );
 }

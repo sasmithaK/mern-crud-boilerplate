@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ItemForm from './components/ItemForm';
 import ItemList from './components/ItemList';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function App() {
   const [editId, setEditId] = useState(null);

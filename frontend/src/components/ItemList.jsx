@@ -8,14 +8,20 @@ export default function ItemList({ onEdit }) {
   useEffect(fetch, []);
 
   return (
-    <ul>
-      {items.map(it => (
-        <li key={it._id}>
-          <strong>{it.name}</strong> – {it.description}
-          <button onClick={() => onEdit(it._id)}>Edit</button>
-          <button onClick={() => deleteItem(it._id).then(fetch)}>Delete</button>
-        </li>
-      ))}
-    </ul>
+    <div className="container mt-4">
+      <ul className="list-group">
+        {items.map(it => (
+          <li key={it._id} className="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+              <strong>{it.name}</strong> – {it.description}
+            </div>
+            <div>
+              <button className="btn btn-sm btn-primary me-2" onClick={() => onEdit(it._id)}>Edit</button>
+              <button className="btn btn-sm btn-danger" onClick={() => deleteItem(it._id).then(fetch)}>Delete</button>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }

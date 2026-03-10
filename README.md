@@ -1,98 +1,105 @@
-# 🚀 MERN Boilerplate (with Vite Frontend)
+# 🚀 Professional MERN Pro Boilerplate
 
-simple MERN boilerplate — jumpstart any MERN CRUD project! 🎉
+A production-ready, industry-standard MERN (MongoDB, Express, React, Node.js) boilerplate featuring TypeScript, JWT Authentication, and Tailwind CSS.
 
 ---
 
-## 📦 Features
+## ✨ Features
 
-* **Backend**: Express.js + Mongoose for MongoDB
-* **Frontend**: React.js with Vite and Axios
-* **CRUD**: Generic routes, controllers, and components
-* **Proxy**: Dev server proxy to connect frontend ↔️ backend
-* **Error Handling**: Simple centralized error middleware
+- **Backend**:
+  - **TypeScript**: Full type safety across the entire API.
+  - **Authentication**: JWT-based auth with secure password hashing (Bcrypt).
+  - **Security**: Helmet, Rate Limiter, and sanitized CORS.
+  - **Logging**: Structured logging with Morgan and Winston.
+  - **Validation**: Strict request validation using Zod.
+  - **Error Handling**: Centralized global error middleware.
+
+- **Frontend**:
+  - **Modern UI**: Tailwind CSS for high-performance, responsive styling.
+  - **State Management**: TanStack Query (React Query) for robust server state & caching.
+  - **Routing**: React Router with Protected Routes.
+  - **Forms**: React Hook Form integrated with Zod validation.
+  - **Icons**: Lucide React.
+  - **Notifications**: React Hot Toast.
+
+- **Developer Experience**:
+  - **Documentation**: Interactive API docs with Swagger UI.
+  - **Testing**: Backend unit testing with Vitest.
+  - **Type Safety**: End-to-end TypeScript integration.
 
 ---
 
 ## 🛠️ Prerequisites
 
-* Node.js (v14+)
-* npm or yarn
-* MongoDB (local or Atlas)
+- Node.js (v18+)
+- MongoDB
+- Docker (optional)
 
 ---
 
-## ⚡ Getting Started
+## ⚡ Quick Start
 
-### 1. Clone the repo
-
-```bash
-git clone https://github.com/sasmithaK/mern-crud-boilerplate.git
-cd mern-crud-boilerplate
+### 1. Setup Environment
+Copy `.env.example` to `.env` in the `backend` folder and set your variables:
+```env
+PORT=5000
+MONGODB_URI=mongodb://localhost:27017/mern-pro
+JWT_SECRET=your_secret_key
+JWT_EXPIRE=30d
+NODE_ENV=development
 ```
 
-### 2. Setup the Backend
+### 2. Install & Run (Local)
+```bash
+# Install root (if using workspaces) or individual folders
+cd backend && npm install
+cd ../frontend && npm install
 
+# Run Backend
+cd backend && npm run dev
+
+# Run Frontend
+cd frontend && npm run dev
+```
+
+### 3. Run with Docker
+```bash
+docker-compose up --build
+```
+
+### 4. API Documentation
+Once the backend is running, access the interactive Swagger documentation at:
+`http://localhost:5000/api-docs`
+
+### 5. Running Tests
 ```bash
 cd backend
-npm install         # Install backend dependencies
-Copy-Item .env.example .env  # Create env file
-# Edit .env and set MONGODB_URI and PORT
-npm run dev         # Start Express server (with nodemon)
+npm test
 ```
-
-⭕ Make sure to add the .env file extension to the .gitignore file before pushing to GitHub
-
-> 🌐 Server runs on `http://localhost:PORT`
-
-### 3. Setup the Frontend
-
-```bash
-cd ../frontend
-npm install         # Install frontend dependencies
-# (Vite template already initialized)
-npm run dev         # Start Vite dev server
-```
-
-> 🚀 Frontend runs on `http://localhost:3000`
-
----
-
-## 🔧 Usage
-
-1. **Create**: Fill out the form and click **Create**
-2. **Read**: View items in the list
-3. **Update**: Click **Edit**, update fields, and submit
-4. **Delete**: Click **Delete** to remove an item
-
-Customize the `Item` model to your domain: rename schema, controllers, and components.
 
 ---
 
 ## 📂 Folder Structure
 
 ```
-mern-boilerplate/
-├── backend/         # Express API
-│   ├── config/      # DB connection
-│   ├── controllers/ # CRUD logic
-│   ├── models/      # Mongoose schemas
-│   ├── routes/      # API routes
-│   ├── middleware/  # Error handling
-│   └── server.js    # Entry point
-└── frontend/        # Vite + React app
+mern-pro/
+├── backend/
+│   ├── src/
+│   │   ├── config/      # Database connection
+│   │   ├── controllers/ # Auth & Resource logic
+│   │   ├── middleware/  # Auth, Error, Security
+│   │   ├── models/      # Mongoose Schemas (TS)
+│   │   ├── routes/      # Express API routes
+│   │   ├── utils/       # Helpers (ApiError, etc)
+│   │   └── server.ts    # Entry point
+│   └── tsconfig.json    # TypeScript config
+└── frontend/
     ├── src/
-    │   ├── api/     # Axios wrappers
-    │   ├── components/ # React UI
-    │   ├── App.jsx  # Main app
-    │   └── main.jsx # Entry point
-    └── vite.config.js # Vite config
+    │   ├── api/         # Axios client
+    │   ├── components/  # Shared components
+    │   ├── context/     # Auth Context
+    │   ├── pages/       # Dashboard, Login, Register
+    │   └── main.tsx     # App entry
+    ├── tailwind.config.js
+    └── vite.config.ts
 ```
-
----
-
-## 🤝 Contributing
-
-Feel free to open issues, submit PRs, or ⭐ the repo if you find it helpful!
-
----

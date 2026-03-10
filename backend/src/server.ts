@@ -4,16 +4,53 @@ import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import rateLimit from 'express-rate-limit';
+import swaggerJsDoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
 import connectDB from './config/db.js';
 import { handleError } from './utils/ApiError.js';
 
 import authRoutes from './routes/auth.routes.js';
 import productRoutes from './routes/product.routes.js';
 
+// NOTE: .js extensions are required for Node.js ESM compatibility in TypeScript.
+// The TypeScript compiler will resolve these to the corresponding .ts files during development.
 dotenv.config();
 
 const app: Express = express();
 const PORT = process.env.PORT || 5000;
+
+// Swagger Configuration
+const swaggerOptions = {
+  swaggerDefinition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'MERN Pro API',
+      version: '1.0.0',
+      description: 'Production-ready MERN Boilerplate API documentation',
+      contact: {
+        name: 'Developer',
+      },
+      servers: [
+        {
+          url: `http://localhost:${PORT}/api`,
+        },
+      ],
+    },
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
+      },
+    },
+  },
+  apis: ['./src/routes/*.ts'],
+};
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // Connect to Database
 connectDB();
